@@ -5,9 +5,15 @@ import argparse
 from typing import List, Dict, Tuple, NewType
 import random
 
+NAME_COL = 0
+FOOD_TYPE_COL = 1
+LOC_COL = 2
+DETAILS_COL = 3
+PRIORITY_COL = 7
+
 def process_data(data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-    food_categories = data[:,1]
-    locations = data[:,2]
+    food_categories = data[:,FOOD_TYPE_COL]
+    locations = data[:,LOC_COL]
 
     return food_categories, locations
 
@@ -25,8 +31,8 @@ def prioritize(priority: np.ndarray) -> Tuple[str, str]:
 def filter_search(data: np.ndarray, food_type: str, location: str) -> Tuple[str, str]:
     priority_arr = {}
     for res_info in data:
-        if food_type in res_info and location in res_info[2]:
-            priority_arr[res_info[0]] = [float(res_info[7]), res_info[3]]
+        if food_type in res_info and location in res_info[LOC_COL]:
+            priority_arr[res_info[NAME_COL]] = [float(res_info[PRIORITY_COL]), res_info[DETAILS_COL]]
     return prioritize(priority_arr)
 
 if __name__ == "__main__":
